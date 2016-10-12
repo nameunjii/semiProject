@@ -4,7 +4,7 @@
 
 <typeAlias alias="mentor" type=".mentorVO" />
 <typeAlias alias="member" type=".memberVO" />
-
+ 
 <!-- resultMap 정의 -->
 <resultMap id="mentorRes" class="mentor">
 	<result property="mentor_no" column="mentor_no" />
