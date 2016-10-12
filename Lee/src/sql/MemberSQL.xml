@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN'
+	'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	
+<sqlMap>
+	<typeAlias alias="member" type="member.MemberVO" />
+	
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="memberRes" class="member" >
+		<result property="no" column="MEMBER_NO" />
+		<result property="id" column="MEMBER_ID" />
+		<result property="password" column="MEMBER_PW" />
+		<result property="name" column="MEMBER_NAME" />
+		<result property="email" column="MEMBER_EMAIL" />
+		<result property="phone" column="MEMBER_PHONE" />
+		<result property="index" column="MEMBER_INDEX" />
+		<result property="content" column="MEMBER_CONTENT" />
+		<result property="zipcode" column="MEMBER_ZIPCODE" />
+		<result property="addr" column="MEMBER_ADDR" />
+	</resultMap>
+	
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all">
+		SELECT * FROM MEMBER
+	</sql>
+	
+	<!-- 공통으로 사용할 where절 정의 -->
+	<sql id="where-no">
+		WHERE no = #no#
+	</sql>
+	
+	
+	<!-- select 쿼리문 정의 -->
+	
+	<select id="memberSelectAll" resultMap="memberRes" parameterClass="int">
+		<include refid="select-all" />
+		ORDER BY no DESC
+	</select>
+	
+	<select id="memberSelectOne" resultMap="memberRes" parameterClass="int">
+		<include refid="select-all" />
+		<include refid="where-no" />
+	</select>
+	
+	<select id="memberSelectPassword" resultMap="memberRes">
+		<include refid="select-all" />
+		<include refid="where-no" />
+		AND MEMBER_PW = #password#
+	</select>
+	
+	<select id="adminIndex" parameterClass="int">
+		SELECT MEMBER_INDEX FROM MEMBER WHERE MEMBER_INDEX='0'
+	</select>
+	
+	<select id="mentorIndex" parameterClass="int">
+		SELECT MEMBER_INDEX FROM MEMBER WHERE MEMBER_INDEX='1'
+	</select>
+	
+	<select id="menteeIndex" parameterClass="int">
+		SELECT MEMBER_INDEX FROM MEMBER WHERE MEMBER_INDEX='2'
+	</select>
+	
+	
+	
+	<!-- insert 쿼리문 정의 -->
+	
+	
+	<insert id="insertMember" parameterClass="member">
+		INSERT INTO MEMBER(
+		MEMBER_NO,
+		MEMBER_ID,
+		MEMBER_PW
+		MEMBER_NAME,
+		MEMBER_EMAIL,
+		MEMBER_PHONE,
+		MEMBER_INDEX,
+		MEMBER_CONTENT,
+		MEMBER_ZIPCODE,
+		MEMBER_ADDR
+		)
+		
+		VALUES(
+		MEMBER_NO_SEQ.NEXTVAL,
+		#id#,
+		#password#,
+		#name#,
+		#email#,
+		#phone#,
+		#index#,
+		#content#,
+		#zipcode#,
+		#addr#
+		)
+	</insert>
+	
+	
+	<!-- update 쿼리문 정의 -->
+	<update id="updateMember" parameterClass="member">
+		UPDATE MEMBER SET MEMBER_PW=#password#,
+						  MEMBER_EMAIL=#email#,
+						  MEMBER_PHONE=#phone#,
+						  MEMBER_CONTENT=#content#,
+						  MEMBER_ZIPCODE=#zipcode#,
+						  MEMBER_ADDR=#addr#
+		
+	<include refid="where-no"/>
+	</update>
+	
+	<!-- delete 쿼리문 정의 -->
+	<delete id="deleteMember" parameterClass="member">
+		DELETE FROM MEMBER
+		<include refid="where-no" />
+	</delete>
+
+</sqlMap>

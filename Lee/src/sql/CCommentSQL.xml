@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN'
+	'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	
+<sqlMap>
+	<typeAlias alias="ccomment" type="ccomment.CcommentVO" />
+	
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="ccomentRes" class="ccomment" >
+		<result property="no" column="CCOMMENT_NO" />
+		<result property="content" column="CCOMMENT_CONTENT" />
+		<result property="regdate" column="CCOMMENT_REGDATE" />
+	</resultMap>
+	
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all">
+		SELECT * FROM CCOMMENT
+	</sql>
+	
+	<!-- 공통으로 사용할 where-no절 정의 -->
+	<sql id="where-no">
+		WHERE no = #no#
+	</sql>
+	
+	
+	<!-- select 쿼리문 정의 -->
+	
+	<select id="ccommentSelectAll" resultMap="ccommentRes" parameterClass="int">
+		<include refid="select-all" />
+		ORDER BY no DESC
+	</select>
+	
+	<select id="ccommentSelectOne" resultMap="ccommentRes" parameterClass="int">
+		<include refid="select-all" />
+		<include refid="where-no" />
+	</select>
+	
+	 <select id="ccommentSelectNo" resultMap="ccommentRes" parameterClass="int">
+		select cc.ccomment_subject from ccomment cc, member m where cc.member_no=m.member_no
+	</select>
+	
+	
+	<!-- insert 쿼리문 정의 -->
+	
+	<insert id="insertCcomment" parameterClass="ccomment">
+		INSERT INTO CCOMMENT(
+		CCOMMENT_NO,
+		CCOMMENT_CONTENT,
+		CCOMMENT_REGDATE
+		)
+		
+		VALUES(
+		CCOMMENT_NO_SEQ.NEXTVAL,
+		#content#,
+		#regdate#
+		)
+	</insert>
+	
+	
+	<!-- update 쿼리문 정의  -->
+	
+	<update id="updateCcomment" parameterClass="ccomment">
+		UPDATE CCOMMENT SET CCOMMENT_CONTENT=#content#,
+						  CCOMMENT_REGDATE=#regdate#
+						  
+		<include refid="where-no"/>
+	</update>
+	
+	
+	<!-- delete 쿼리문 정의 -->
+	
+	<delete id="deleteCcomment" parameterClass="ccomment">
+		DELETE FROM CCOMMENT
+		<include refid="where-no"/>
+	</delete>
+</sqlMap>
