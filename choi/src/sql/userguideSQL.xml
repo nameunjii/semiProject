@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+<typeAlias alias="userguide" type=".guideVO" />
+
+<!-- resultMap 설정 -->
+<resultMap id="userguideRes" class="userguide">
+	<result property="userguide_content" column="userguide_content" />
+	<result property="userguide_fileorg" column="userguide_fileorg" />
+	<result property="userguide_filesav" column="userguide_filesav" />
+	<result property="userguide_regdate" column="userguide_regdate" />
+</resultMap>
+
+<!-- select 쿼리문 정의 -->
+<!-- 유저가이드 상세보기 -->
+<select id="userguideSelectOne">
+	SELECT * FROM USERGUIDE
+</select>
+
+<!-- insert 쿼리문 정의 -->
+<insert id="userguideInsert">
+	INSERT INTO USERGUIDE(USERGUIDE_CONTENT,
+						USERGUIDE_FILEORG,
+						USERGUIDE_FILESAV,
+						USERGUIDE_REGDATE
+						)
+				VALUES(	#userguide_content#,
+						#userguide_fileorg#,
+						#userguide_filesav#,
+						#userguide_regdate#
+						)
+</insert>
+
+<!-- update 쿼리문 정의 -->
+<update id="userguideUpdate">
+	UPDATE USERGUIDE SET USERGUIDE_CONTENT = #userguide_content#,
+						USERGUIDE_FILEORG = #userguide_fileorg#,
+						USERGUIDE_FILESAV = #userguide_filesav#,
+						USERGUIDE_REGDATE = #userguide_regdate#
+</update>
+
+<!-- delete 쿼리문 정의 -->
+<delete id="userguideDelete">
+	DELETE FROM USERGUIDE
+</delete>
+
+</sqlMap>

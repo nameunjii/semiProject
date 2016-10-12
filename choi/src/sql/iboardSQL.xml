@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+<typeAlias alias="iboard" type=".iboardVO" />
+
+<!-- resultMap 정의 -->
+<resultMap id="iboardRes" class="iboard">
+	<result property="iboard_no" column="iboard_no" />
+	<result property="iboard_subject" column="iboard_subject" />
+	<result property="iboard_content" column="iboard_content" />
+	<result property="iboard_fileorg" column="iboard_fileorg" />
+	<result property="iboard_filesav" column="iboard_filesav" />
+	<result property="iboard_regdate" column="iboard_regdate" />
+</resultMap>
+
+<!-- 공통으로 사용할 select-all 절 정의 -->
+<sql id="select-all" >
+	SELECT * FROM IBOARD
+</sql>
+
+<!-- 공통으로 사용할 where-no 절 정의 -->
+<sql id="where-no" >
+	WHERE IBOARD_NO = #iboard_no#
+</sql>
+
+<!-- select 쿼리문 정의 -->
+<!-- 직무게시글 리스트 보기 -->
+<select id="iboardSelectAll">
+	<include refid="select-all" />
+	ORDER BY IBOARD_NO DESC
+</select>
+
+<!-- 직무게시글 상세보기 -->
+<select id="iboardSelectOne">
+	<include refid="select-all" />
+	<include refid="where-no" />
+</select>
+
+<!-- 직무게시글 총 개수 -->
+<select id="iboardSelectCount">
+	SELECT COUNT(*) FROM IBOARD
+</select>
+
+<!-- 직무게시글 제목 검색 -->
+<select id="iboardSearchSubject">
+	<include refid="select-all" />
+	WHERE IBOARD_SUBJECT like #searchKeyword#
+	ORDER BY IBOARD_NO DESC
+</select>
+	
+<!-- 직무게시글 내용 검색 -->
+<select id="iboardSearchContent">
+	<include refid="select-all" />
+	WHERE IBOARD_CONTENT like #searchKeyword#
+	ORDER BY IBOARD_NO DESC
+</select>
+
+<!-- insert 쿼리문 정의 -->
+<insert id="iboardInsert">
+	INSERT INTO IBOARD(IBOARD_NO,
+						IBOARD_SUBJECT,
+						IBOARD_CONTENT,
+						IBOARD_FILEORG,
+						IBOARD_FILESAV,
+						IBOARD_REGDATE
+						)
+				VALUES (IBOARD_NO_SEQ.NEXTVAL,
+						#iboard_subject#,
+						#iboard_content#,
+						#iboard_fileorg#,
+						#iboard_filesav#,
+						#iboard_regdate#
+						)
+</insert>
+
+<!-- update 쿼리문 정의 -->
+<update id="iboardUpdate">
+	UPDATE IBOARD SET IBOARD_SUBJECT = #iboard_subject#,
+						IBOARD_CONTENT = #iboard_content#,
+						IBOARD_FILEORG = #iboard_fileorg#,
+						IBOARD_FILESAV = #iboard_filesav#,
+						IBOARD_REGDATE = #iboard_regdate#
+	<include refid="where-no" />
+</update>
+
+<!-- delete 쿼리문 정의 -->
+<delete id="iboardDelete">
+	DELETE FROM IBOARD
+	<include refid="where-no" />
+</delete>
+
+</sqlMap>

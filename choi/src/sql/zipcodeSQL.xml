@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+<typeAlias alias="zipcode" type=".zipcodeVO" />
+
+<!-- resultMap 정의 -->
+<resultMap id="zipcodeRes" class="zipcode">
+	<result property="zipcode" column="zipcode" />
+	<result property="area1" column="area1" />
+	<result property="area2" column="area2" />
+	<result property="area3" column="area3" />
+	<result property="area4" column="area4" />
+</resultMap>
+
+<!-- select 쿼리문 정의 : 동/면 검색 -->
+<select id="zipcodeSelect">
+	SELECT * FROM ZIPCODE
+	WHERE AREA3 = #searchKeyword#
+</select>
+
+
+</sqlMap>
