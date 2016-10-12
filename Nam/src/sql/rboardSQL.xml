@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN'
+	'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	
+<sqlMap>
+	<typeAlias alias="rboard" type="rboard.RboardVO" />
+	
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="" class="" >
+		<result property="no" column="RBOARD_NO" />
+		<result property="subject" column="RBOARD_SUBJECT" />
+		<result property="content" column="RBOARD_CONTENT" />
+		<result property="regdate" column="RBOARD_REGDATE" />
+		<result property="file_org" column="RBOARD_FILEORG" />
+		<result property="file_sav" column="RBOARD_FILESAV" />
+		<result property="readhit" column="RBOARD_READHIT" />
+	</resultMap>
+	
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all">
+		SELECT * FROM RBOARD
+	</sql>
+	
+	<!-- 공통으로 사용할 where-no절 정의 -->
+	<sql id="where-no">
+		WHERE no = #no#
+	</sql>
+	
+	<!-- select 쿼리문 정의  -->
+	
+	<select id="rboardSelectAll" resultMap="rboardRes" parameterClass="int">
+		<include refid="select-all" />
+		ORDER BY no DESC
+	</select>
+	
+	<select id="rboardSelectOne" resultMap="rboardRes" parameterClass="int">
+		<include refid="select-all" />
+		<include refid="where-no" />
+	</select>
+	
+	<!-- 
+	<select id="rboardSelectPassword" resultMap="memberRes">
+		<include refid="select-all" />
+		<include refid="where-no" />
+		AND MEMBER_PW = #password#
+	</select>
+	 -->
+	 
+	<select id="rboardSelectNo" resultMap="rboardRes" parameterClass="int">
+		select rb.rboard_subject from rboard rb, member m where rb.member_no=m.member_no
+	</select>
+	
+	
+	<!-- insert 쿼리문 정의 -->
+	
+	<insert id="insertRboard" parameterClass="rboard">
+		INSERT INTO RBOARD(
+		RBOARD_NO,
+		RBOARD_SUBJECT,
+		RBOARD_CONTENT,
+		RBOARD_REGDATE
+		)
+		
+		VALUES(
+		RBOARD_NO_SEQ.NEXTVAL,
+		#subject#,
+		#content#,
+		#regdate#,
+		)
+	</insert>
+	
+	
+	<!-- update 쿼리문 정의 -->
+	<update id="updateRboard" parameterClass="rboard">
+		UPDATE RBOARD SET RBOARD_SUBJECT=#subject#,
+						  RBOARD_CONTENT=#content#,
+						  RBOARD_REGDATE=#regdate#
+						  
+		<include refid="where-no"/>
+	</update>
+	
+	<update id="updateRboardFile" parameterClass="rboard">
+		UPDATE RBOARD SET RBOARD_FILEORG=#file_org#,
+						  RBOARD_FILESAV=#file_sav#
+						  
+	<include refid="where-no"/>
+	</update>
+	
+	<update id="updateRboardReadHit" parameterClass="rboard">
+		UPDATE RBOARD SET RBOARD_READHIT = readHit + 1
+		
+	<include refid="where-no"/>
+	</update>
+	
+	<!-- delete 쿼리문 정의 -->
+	<delete id="deleteRboard" parameterClass="rboard">
+		DELETE FROM RBOARD
+		
+		<include refid="where-no"/>
+	</delete>
+
+</sqlMap>
