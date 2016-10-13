@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
-	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
-
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+ 
 <sqlMapConfig>
+
 	<properties resource="/dbconnect.properties" />
 	<settings cacheModelsEnabled="true"
 			enhancementEnabled="true"
@@ -10,7 +10,7 @@
 			maxRequests="32"
 			maxSessions="10"
 			maxTransactions="5"
-			useStatementNamespaces="false"/>
+			useStatementNamespaces="false" />
 			
 	<transactionManager type="JDBC" commitRequired="false">
 		<dataSource type="SIMPLE">
@@ -21,18 +21,18 @@
 		</dataSource>
 	</transactionManager>
 	
-	<sqlMap resource="/sql/memberSQL.xml" />
-	<sqlMap resource="/sql/cboardSQL.xml" />
-	<sqlMap resource="/sql/ccommentSQL.xml" />
-	<sqlMap resource="/sql/rboardSQL.xml" />
-	<sqlMap resource="/sql/rcommentSQL.xml" />
-	<sqlMap resource="/sql/zipcodeSQL.xml" />
-	<sqlMap resource="/sql/applySQL.xml" />
-	<sqlMap resource="/sql/iboardSQL.xml" />
-	<sqlMap resource="/sql/mentorSQL.xml" />
-	<sqlMap resource="/sql/noticeSQL.xml" />
-	<sqlMap resource="/sql/scheduleSQL.xml" />
-	<sqlMap resource="/sql/userguidSQL.xml" />
+	<sqlMap resource="/sql/MemberSQL.xml" />
+	<sqlMap resource="/sql/MentorSQL.xml" />
+	<sqlMap resource="/sql/ApplySQL.xml" />
+	<sqlMap resource="/sql/IBoardSQL.xml" />
+	<sqlMap resource="/sql/NoticeSQL.xml" />
+	<sqlMap resource="/sql/ScheduleSQL.xml" />
+	<sqlMap resource="/sql/ZipcodeSQL.xml" />
+	<sqlMap resource="/sql/RBoardSQL.xml" />
+	<sqlMap resource="/sql/RCommentSQL.xml" />
+	<sqlMap resource="/sql/CBoardSQL.xml" />
+	<sqlMap resource="/sql/CCommentSQL.xml" />
+	<sqlMap resource="/sql/UserGuideSQL.xml" />
 
-
+	
 </sqlMapConfig>

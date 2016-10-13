@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN'
+	'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	
+<sqlMap>
+	<typeAlias alias="rcomment" type="rcomment.RcommentVO" />
+	
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="rcommentRes" class="rcomment" >
+		<result property="content" column="RCOMMENT_CONTENT" />
+		<result property="regdate" column="RCOMMENT_REGDATE" />
+	</resultMap>
+	
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all-RComment">
+		SELECT * FROM RCOMMENT
+	</sql>
+	
+	<!-- 공통으로 사용할 where-no-RComment절 정의 -->
+	<sql id="where-no-RComment">
+		WHERE no = #no#
+	</sql>
+	
+	
+	<!-- select 쿼리문 정의 -->
+	
+	<select id="rcommentSelectAll" resultMap="rcomment" parameterClass="int">
+		<include refid="select-all-RComment" />
+		ORDER BY no DESC
+	</select>
+	
+	<select id="rcommentSelectOne" resultMap="rcomment" parameterClass="int">
+		<include refid="select-all-RComment" />
+		<include refid="where-no-RComment" />
+	</select>
+	
+	 <select id="ccommentSelectNo" resultMap="ccommentRes" parameterClass="int">
+		select rc.rcomment_subject from rcomment rc, member m where rc.member_no=m.member_no
+	</select>
+	
+	
+	
+	
+	<!-- insert 쿼리문 정의 -->
+	
+	<insert id="rcommentInsert" parameterClass="rcomment">
+		INSERT INTO RCOMMENT(
+		RCOMMENT_NO
+		RCOMMENT_CONTENT,
+		RCOMMENT_REGDATE
+		)
+		
+		VALUES(
+		RCOMMENT_NO_SEQ.NEXTVAL,
+		#content#,
+		#regdate#
+		)
+	</insert>
+	
+	
+	<!-- update 쿼리문 정의  -->
+	
+	<update id="rcommentUpdate" parameterClass="rcomment">
+		UPDATE RCOMMENT SET RCOMMENT_CONTENT=#content#,
+						  RCOMMENT_REGDATE=#regdate#
+						  
+		<include refid="where-no-RComment"/>
+	</update>
+	
+	
+	<!-- delete 쿼리문 정의 -->
+
+	<delete id="rcommentDelete" parameterClass="rcomment">
+		DELETE FROM RCOMMENT
+		<include refid="where-no-RComment"/>
+	</delete>
+	
+</sqlMap>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+ 
+<typeAlias alias="mentor" type=".mentorVO" />
+<typeAlias alias="schedule" type=".scheduleVO" />
+
+<!-- resultMap 정의 -->
+<resultMap id="mentorRes" class="mentor">
+	<result property="mentor_no" column="mentor_no" />
+	<result property="member_no" column="member_no" />
+	<result property="mentor_intro" column="mentor_intro" />
+	<result property="mentor_etc" column="mentor_etc" />
+	<result property="mentor_image" column="mentor_image" />
+	<result property="mentor_university" column="mentor_university" />
+	<result property="mentor_carrer" column="mentor_carrer" />
+	<result property="mentor_job" column="mentor_job" />
+</resultMap>
+
+<resultMap id="scheduleRes" class="schedule">
+	<result property="schedule_no" column="schedule_no" />
+	<result property="mentor_no" column="mentor_no" />
+	<result property="schedule_regdate" column="schedule_regdate" />
+	<result property="schedule_addr1" column="schedule_addr1" />
+	<result property="schedule_addr2" column="schedule_addr2" />
+	<result property="schedule_time" column="schedule_time" />
+	<result property="schedule_subject" column="schedule_subject" />
+	<result property="schedule_content" column="schedule_content" />
+	<result property="schedule_image" column="schedule_image" />
+</resultMap>
+
+<!-- 공통으로 사용할 select-all 절 정의 -->
+<sql id="select-all" >
+	SELECT * FROM SCHEDULE
+</sql>
+
+<!-- 공통으로 사용할 where-no-Schedule 절 정의 -->
+<sql id="where-no-Schedule">
+	WHERE SCHEDULE_NO = #schedule_no#
+</sql>
+
+<!-- select 쿼리문 정의 -->
+<!-- 스케줄 리스트 보기 -->
+<select id="scheduleSelectAll" >
+	<include refid="select-all" />
+	WHERE MENTOR_NO = #mentor_no#
+	ORDER BY SCHEDULE_NO DESC
+</select>
+
+<!-- 스케줄 상세보기 -->
+<select id="scheduleSelectOne" >	
+	SELECT *
+	FROM SCHEDULE s INNER JOIN MENTOR m
+	ON s.mentor_no = m.mentor_no AND s.schedule_no = #schedule_no# AND s.mentor_no = #mentor_no#
+</select>
+
+<!-- 스케쥴 총 개수 -->
+<select id="scheduleSelectCount">
+	SELECT COUNT(*) FROM SCHEDULE
+</select>
+
+<!-- 멘토찾기(지역) : schedule_addr 찾기 -> mentor_no 찾기?????? -->
+<select id="scheduleSearchAddr">
+	SELECT DISTINCT MENTOR_NO
+	FROM SCHEDULE
+	WHERE SCHEDULE_ADDR1 like #searchKey1# OR SCHEDULE_ADDR2 like #searchKey2# 
+</select>
+
+<!-- insert 쿼리문 정의 -->
+<!-- 스케줄 등록 -->
+<insert id="scheduleInsert" >
+	INSERT SCHEDULE INTO(SCHEDULE_NO,
+						MENTOR_NO,
+						SCHEDULE_REGDATE,
+						SCHEDULE_ADDR1,
+						SCHEDULE_ADDR2,
+						SCHEDULE_TIME,
+						SCHEDULE_SUBJECT,
+						SCHEDULE_CONTENT,
+						SCHEDULE_IMAGE
+						)
+				VALUES(SCHEDULE_NO_SEQ.NEXTVAL,
+						MENTOR_NO_SEQ.CURRVAL,
+						#schedule_regdate#,
+						#schedule_addr1#,
+						#schedule_addr2#,
+						#schedule_time#,
+						#schedule_subject#,
+						#schedule_content#,
+						#schedule_image#
+						)
+</insert>
+
+<!-- update 쿼리문 정의 -->
+<!-- 스케줄 수정 -->
+<update id="scheduleUpdate">
+	UPDATE SCHEDULE SET SCHEDULE_REGDATE = #schedule_regdate#,
+						SCHEDULE_ADDR1 = #schedule_addr1#,
+						SCHEDULE_ADDR2 = #schedule_addr2#,
+						SCHEDULE_TIME = #schedule_time#,
+						SCHEDULE_SUBJECT = #schedule_subject#,
+						SCHEDULE_CONTENT = #schedule_content#,
+						SCHEDULE_IMAGE = #schedule_image#
+	<include refid="where-no-Schedule" />
+</update>
+
+<!-- delete 쿼리문 정의 -->
+<!-- 스케쥴 삭제 -->
+<delete id="scheduleDelete">
+	DELETE FROM SCHEDULE
+	<include refid="where-no-Schedule" />
+</delete>
+
+
+</sqlMap>

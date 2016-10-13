@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+ 
+<typeAlias alias="notice" type=".noticeVO" />
+
+<!-- resultMap 정의 -->
+<resultMap id="noticeRes" class="notice">
+	<result property="notice_no" column="notice_no" />
+	<result property="notice_subject" column="notice_subject" />
+	<result property="notice_content" column="notice_content" />
+	<result property="notice_regdate" column="notice_regdate" />
+</resultMap>
+
+<!-- 공통으로 사용할 select-all-Notice 절 정의 -->
+<sql id="select-all-Notice" >
+	SELECT * FROM NOTICE
+</sql>
+
+<!-- 공통으로 사용할 where-no-Notice 절 정의 -->
+<sql id="where-no-Notice" >
+	WHERE NOTICE_NO = #notice_no#
+</sql>
+
+<!-- select 쿼리문 정의 -->
+<!-- 공지사항 리스트 보기 -->
+<select id="noticeSelectAll" >
+	<include refid="select-all-Notice" />
+	ORDER BY NOTICE_NO DESC
+</select>
+
+<!-- 공지사항 상세보기 -->
+<select id="noticeSelectOne" >
+	<include refid="select-all-Notice" />
+	<include refid="where-no-Notice" />
+</select>
+
+<!-- 공지사항 총 개수 -->
+<select id="noticeSelectCount" >
+	SELECT COUNT(*) FROM NOTICE
+</select>
+
+<!-- 공지사항 제목 검색 -->
+<select id="noticeSearchName">
+	<include refid="select-all-Notice" />
+	WHERE NOTICE_SUBJECT like #searchKeyword#
+	ORDER BY NOTICE_NO DESC
+</select>
+
+<!-- 공지사항 내용 검색 -->	
+<select id="noticeSearchContent">
+	<include refid="select-all-Notice" />
+	WHERE NOTICE_CONTENT like #searchKeyword#
+	ORDER BY NOTICE_NO DESC
+</select>
+	
+<!-- insert 쿼리문 정의 -->
+<insert id="noticeInsert">
+	INSERT INTO NOTICE(NOTICE_NO,
+						NOTICE_SUBJECT,
+						NOTICE_CONTENT,
+						NOTICE_REGDATE
+						)
+				VALUES (NOTICE_NO_SEQ.NEXTVAL,
+						#notice_subject#,
+						#notice_content#,
+						#notice_regdate#
+						)
+</insert>
+
+<!-- update 쿼리문 정의 -->
+<update id="noticeUpdate">
+	UPDATE NOTICE SET NOTICE_SUBJECT = #notice_subject#,
+						NOTICE_CONTENT = #notice_content#,
+						NOTICE_REGDATE = #notice_regdate#
+	<include refid="where-no-Notice" />
+</update>
+
+<!-- delete 쿼리문 정의 -->
+<delete id="noticeDelete">
+	DELETE FROM NOTICE
+	<include refid="where-no-Notice" />
+</delete>
+
+</sqlMap>
