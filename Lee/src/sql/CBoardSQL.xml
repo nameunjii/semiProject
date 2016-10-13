@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN'
+	'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	
+<sqlMap>
+	<typeAlias alias="cboard" type="cboard.CboardVO" />
+	
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="cboardRes" class="cboard" >
+		<result property="no" column="CBOARD_NO" />
+		<result property="subject" column="CBOARD_SUBJECT" />
+		<result property="content" column="CBOARD_CONTENT" />
+		<result property="file_org" column="CBOARD_FILEORG" />
+		<result property="file_sav" column="CBOARD_FILESAV" />
+		<result property="readhit" column="CBOARD_READHIT" />
+		<result property="regdate" column="CBOARD_REGDATE" />
+	</resultMap>
+
+	
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all">
+		SELECT * FROM CBOARD
+	</sql>
+	
+	<!-- 공통으로 사용할 where-no절 정의 -->
+	<sql id="where-no">
+		WHERE no = #no#
+	</sql>
+	
+	
+	<!-- select 쿼리문 정의  -->
+	
+	<select id="cboardSelectAll" resultMap="cboardRes" parameterClass="int">
+		<include refid="select-all" />
+		ORDER BY no DESC
+	</select>
+	
+	<select id="cboardSelectOne" resultMap="cboardRes" parameterClass="int">
+		<include refid="select-all" />
+		<include refid="where-no" />
+	</select>
+	
+	<!--  
+	<select id="cboardSelectPassword" resultMap="memberRes">
+		<include refid="select-all" />
+		<include refid="where-no" />
+		AND MEMBER_PW = #password#
+	</select>
+	-->
+	
+	<select id="cboardSelectNo" resultMap="cboardRes" parameterClass="int">
+		select cb.cboard_subject from cboard cb, member m where cb.member_no=m.member_no
+	</select>
+	
+	
+	<!-- insert 쿼리문 정의 -->
+	
+	<insert id="insertCboard" parameterClass="cboard">
+		INSERT INTO CBOARD(
+		CBOARD_NO,
+		CBOARD_SUBJECT,
+		CBOARD_CONTENT,
+		CBOARD_REGDATE
+		)
+		
+		VALUES(
+		CBOARD_NO_SEQ.NEXTVAL,
+		#subject#,
+		#content#,
+		#regdate#
+		)
+	</insert>
+	
+	
+	<!-- update 쿼리문 정의 -->
+	
+	<update id="updateCboard" parameterClass="cboard">
+		UPDATE CBOARD SET CBOARD_SUBJECT=#subject#,
+						  CBOARD_CONTENT=#content#
+						  
+		<include refid="where-no"/>
+	</update>
+	
+	<update id="updateCboardFile" parameterClass="cboard">
+		UPDATE CBOARD SET CBOARD_FILEORG=#file_org#,
+						  CBOARD_FILESAV=#file_sav#
+	<include refid="where-no"/>
+	</update>
+	
+	<update id="updateCboardReadHit" parameterClass="cboard">
+		UPDATE CBOARD SET CBOARD_READHIT = readHit + 1
+	<include refid="where-no"/>
+	</update>
+	
+	
+	<!-- delete 쿼리문 정의 -->
+
+	<delete id="deleteCboard" parameterClass="cboard">
+		DELETE FROM CBOARD
+		<include refid="where-no"/>
+	</delete>
+	
+	
+	
+</sqlMap>
