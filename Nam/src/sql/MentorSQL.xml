@@ -3,8 +3,8 @@
 <sqlMap>
 
 
-<typeAlias alias="mentor" type=".mentorVO" />
-<typeAlias alias="member" type=".memberVO" />
+<typeAlias alias="mentor" type="Mentor.Mtor_VO" />
+<typeAlias alias="member" type="Member.Mem_VO" />
  
 <!-- resultMap 정의 -->
 <resultMap id="mentorRes" class="mentor">

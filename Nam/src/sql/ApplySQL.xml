@@ -2,9 +2,9 @@
 <!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
 <sqlMap>
  
-<typeAlias alias="member" type=".memberVO" />
-<typeAlias alias="schedule" type=".scheduleVO" />
-<typeAlias alias="apply" type=".applyVO" />
+<typeAlias alias="member" type="Member.Mem_VO" />
+<typeAlias alias="schedule" type="Schedule.S_VO" />
+<typeAlias alias="apply" type="Apply.AP_VO" />
  
 <!-- resultMap 정의 -->
 <resultMap id="memberRes" class="member">

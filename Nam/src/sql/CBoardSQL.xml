@@ -4,7 +4,7 @@
 	
 
 <sqlMap>
-	<typeAlias alias="cboard" type="cboard.CboardVO" />
+	<typeAlias alias="cboard" type="Cboard.CB_VO" />
 	
 	<!-- 리절트 맵 정의 -->
 	<resultMap id="cboardRes" class="cboard" >
@@ -61,7 +61,9 @@
 		CBOARD_NO,
 		CBOARD_SUBJECT,
 		CBOARD_CONTENT,
-		CBOARD_REGDATE
+		CBOARD_REGDATE,
+		CBOARD_FILEORG,
+		CBOARD_FILESAV
 		)
 		
 		VALUES(
@@ -69,6 +71,8 @@
 		#subject#,
 		#content#,
 		#regdate#
+		#file_org#,
+		#file_sav#
 		)
 	</insert>
 	
@@ -82,11 +86,13 @@
 		<include refid="where-no-CBoard"/>
 	</update>
 	
+	<!-- 1개 이상의 이미지 추가할 때 사용. 이미지 보드 필요함.
 	<update id="cboardUpdateFile" parameterClass="cboard">
 		UPDATE CBOARD SET CBOARD_FILEORG=#file_org#,
 						  CBOARD_FILESAV=#file_sav#
 	<include refid="where-no-CBoard"/>
 	</update>
+	 -->
 	
 	<update id="cboardUpdateReadHit" parameterClass="cboard">
 		UPDATE CBOARD SET CBOARD_READHIT = readHit + 1

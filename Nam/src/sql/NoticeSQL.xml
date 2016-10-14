@@ -3,7 +3,7 @@
 <sqlMap>
  
  
-<typeAlias alias="notice" type=".noticeVO" />
+<typeAlias alias="notice" type="Notice.N_VO" />
 
 <!-- resultMap 정의 -->
 <resultMap id="noticeRes" class="notice">

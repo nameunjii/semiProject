@@ -3,7 +3,7 @@
 <sqlMap>
 
 
-<typeAlias alias="iboard" type=".iboardVO" />
+<typeAlias alias="iboard" type="Iboard.IB_VO" />
  
 <!-- resultMap 정의 -->
 <resultMap id="iboardRes" class="iboard">

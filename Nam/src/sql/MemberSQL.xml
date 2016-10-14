@@ -4,7 +4,7 @@
 	
 	
 <sqlMap>
-	<typeAlias alias="member" type="member.MemberVO" />
+	<typeAlias alias="member" type="Member.Mem_VO" />
 	
 	<!-- 리절트 맵 정의 -->
 	<resultMap id="memberRes" class="member" >

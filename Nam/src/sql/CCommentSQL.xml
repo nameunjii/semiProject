@@ -4,7 +4,7 @@
 	
 	
 <sqlMap>
-	<typeAlias alias="ccomment" type="ccomment.CcommentVO" />
+	<typeAlias alias="ccomment" type="Ccomment.CC_VO" />
 	
 	<!-- 리절트 맵 정의 -->
 	<resultMap id="ccomentRes" class="ccomment" >
@@ -37,7 +37,7 @@
 	</select>
 	
 	 <select id="ccommentSelectNo" resultMap="ccommentRes" parameterClass="int">
-		select cc.ccomment_subject from ccomment cc, member m where cc.member_no=m.member_no
+		select cc.ccomment_content from ccomment cc, member m where cc.member_no=m.member_no
 	</select>
 	
 	

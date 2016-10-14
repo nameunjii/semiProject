@@ -4,7 +4,7 @@
 	
 	
 <sqlMap>
-	<typeAlias alias="rboard" type="rboard.RboardVO" />
+	<typeAlias alias="rboard" type="Rboard.RB_VO" />
 	
 	<!-- 리절트 맵 정의 -->
 	<resultMap id="" class="" >
@@ -59,7 +59,9 @@
 		RBOARD_NO,
 		RBOARD_SUBJECT,
 		RBOARD_CONTENT,
-		RBOARD_REGDATE
+		RBOARD_REGDATE,
+		RBOARD_FILEORG,
+		RBOARD_FILESAV
 		)
 		
 		VALUES(
@@ -67,6 +69,8 @@
 		#subject#,
 		#content#,
 		#regdate#,
+		#file_org#,
+		#file_sav#
 		)
 	</insert>
 	
@@ -80,12 +84,14 @@
 		<include refid="where-no-RBoard"/>
 	</update>
 	
+	<!-- 1개 이상의 이미지 추가할 때 사용. 이미지 보드 필요함.
 	<update id="rboardUpdateFile" parameterClass="rboard">
 		UPDATE RBOARD SET RBOARD_FILEORG=#file_org#,
 						  RBOARD_FILESAV=#file_sav#
 						  
 	<include refid="where-no-RBoard"/>
 	</update>
+	 -->
 	
 	<update id="rboardUpdateReadHit" parameterClass="rboard">
 		UPDATE RBOARD SET RBOARD_READHIT = readHit + 1
